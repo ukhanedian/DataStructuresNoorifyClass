@@ -8,35 +8,29 @@ class Node(object):
 class Queue(object):
     def __init__(self):
         self.head = None
-        self.tail = None
 
     def push(self, data):
         new_node = Node(data)
-        if self.tail is None:
-            self.tail = new_node
-            self.tail.next = None
-            self.head = self.tail
-            self.head.prev = None
+        if self.head is None:
+            self.head = new_node
             return
-        else:
-            self.tail.next = new_node
-            new_node.prev = self.tail
-            self.tail = new_node
-            new_node.next = None
+
+        node = self.head
+        while node.next is not None:
+            node = node.next
+
+        node.next = new_node
+        new_node.prev = node
         return True
 
     def pop(self):
         if self.head is None:
             raise ValueError("Empty Queue...")
             return
-        elif self.head == self.tail:
-            popped_data = self.head.data
-            self.head = None
-            self.tail = self.head
-        else:
-            popped_data = self.head.data
-            self.head = self.head.next
-            self.head.prev = None
+
+        popped_data = self.head.data
+        self.head.prev = None
+        self.head = self.head.next
         return popped_data
 
     def top(self):
