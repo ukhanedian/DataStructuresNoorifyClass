@@ -8,33 +8,43 @@ class Node(object):
 class Stack(object):
 	def __init__(self):
 		self.head = None
+		self.tail = None
 
 	def push(self, data):
 		new_node = Node(data)
-		if self.head is None:
-			self.head = new_node
+		if self.tail is None:
+			self.tail = new_node
+			self.tail.next = None
+			self.head = self.tail
+			self.head.prev = None
+			return True
+		else:
+			self.tail.next = new_node
+			new_node.prev = self.tail
+			self.tail = new_node
+			new_node.next = None
 			return True
 
-		new_node.next = self.head
-		self.head.prev = new_node
-		self.head = new_node
-		return True
-
 	def pop(self):
+		popped_data = None
 		if self.head is None:
 			raise ValueError("Empty Stack...")
 			return
-		
-		popped_data = self.head.data
-		self.head.prev = None
-		self.head = self.head.next
+		elif self.head == self.tail:
+			popped_data = self.tail.data
+			self.head = None
+			self.tail = self.head
+		else:
+			popped_data = self.tail.data
+			self.tail = self.tail.prev
+			self.tail.next = None
 		return popped_data
 
 	def top(self):
 		if self.head is None:
 			raise ValueError("Empty Stack...")
 			return
-		return self.head.data
+		return self.tail.data
 
 	def isEmpty(self):
 		if self.head is None:
