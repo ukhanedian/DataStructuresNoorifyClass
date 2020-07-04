@@ -47,7 +47,6 @@ class LinkedList(object):
 				updated = True
 			else:
 				node = node.next
-
 		if node is None:
     			raise ValueError("Could not found...")
 
